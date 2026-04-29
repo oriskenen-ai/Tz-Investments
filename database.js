@@ -7,8 +7,35 @@ let investmentsCollection = null;
 let withdrawalsCollection = null;
 let earningsCollection = null;
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+const MONGODB_URI = process.env.MONGODB_URI;
 const DB_NAME = 'investment-platform';
+
+console.log('🔍 Checking MONGODB_URI...');
+console.log('MONGODB_URI set:', !!MONGODB_URI);
+console.log('MONGODB_URI value:', MONGODB_URI ? MONGODB_URI.substring(0, 50) + '...' : 'NOT SET');
+
+// Validate MONGODB_URI
+if (!MONGODB_URI) {
+    console.error('');
+    console.error('╔════════════════════════════════════════════════════════════╗');
+    console.error('║  ❌ CRITICAL ERROR: MONGODB_URI NOT SET                    ║');
+    console.error('╠════════════════════════════════════════════════════════════╣');
+    console.error('║  You must add MONGODB_URI to Render environment variables  ║');
+    console.error('║                                                            ║');
+    console.error('║  Steps:                                                    ║');
+    console.error('║  1. Go to your Render service dashboard                    ║');
+    console.error('║  2. Click "Environment" tab                               ║');
+    console.error('║  3. Add variable: MONGODB_URI                             ║');
+    console.error('║  4. Set value to your MongoDB Atlas connection string      ║');
+    console.error('║                                                            ║');
+    console.error('║  Example:                                                  ║');
+    console.error('║  mongodb+srv://user:pass@cluster.mongodb.net/?...         ║');
+    console.error('║                                                            ║');
+    console.error('║  Then redeploy!                                           ║');
+    console.error('╚════════════════════════════════════════════════════════════╝');
+    console.error('');
+    process.exit(1);
+}
 
 // ==========================================
 // CONNECTION
