@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .auth-container h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .auth-tab.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        .dashboard {
+            display: none;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+        }
+
+        .dashboard-header h1 {
+            color: #333;
+        }
+
+        .logout-btn {
+            background: #ff6b6b;
+            padding: 10px 20px;
+            width: auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #f7f7f7;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .stat-card h3 {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            color: #667eea;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #764ba2;
+        }
+
+        .section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .close-modal {
+            background: #ff6b6b;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success.show {
+            display: block;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background: #f7f7f7;
+            color: #333;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .auth-container {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- AUTH SECTION -->
+    <div class="container" id="authSection">
+        <div class="auth-container">
+            <h1>🚀 Investment Platform</h1>
+            
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchAuth('login')">Login</div>
+                <div class="auth-tab" onclick="switchAuth('register')">Register</div>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginForm">
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="loginPhone" placeholder="254712345678">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter password">
+                </div>
+                <button onclick="login()">Login</button>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerForm" style="display: none;">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="registerName" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="registerPhone" placeholder="254712345678">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="registerPassword" placeholder="Create password">
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="registerConfirm" placeholder="Confirm password">
+                </div>
+                <button onclick="register()">Create Account</button>
+            </div>
+
+            <div id="authMessage" class="error"></div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SECTION -->
+    <div class="container dashboard" id="dashboardSection">
+        <div class="dashboard-header">
+            <div>
+                <h1>Welcome, <span id="investorName">Investor</span>!</h1>
+                <p>Your Investment Dashboard</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>💰 Investment</h3>
+                <div class="value" id="investmentAmount">0 KES</div>
+            </div>
+            <div class="stat-card">
+                <h3>💸 Earnings</h3>
+                <div class="value" id="earningsAmount">0 KES</div>
+            </div>
+            <div class="stat-card">
+                <h3>💳 Available</h3>
+                <div class="value" id="availableAmount">0 KES</div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-btn" onclick="showSection('deposit')">💰 Make Deposit</button>
+            <button class="action-btn" onclick="showSection('withdraw')">💸 Withdraw</button>
+            <button class="action-btn" onclick="showSection('history')">📊 History</button>
+        </div>
+
+        <div id="message" class="success"></div>
+
+        <!-- Deposit Section -->
+        <div id="deposit" class="section">
+            <h2>Make Investment Deposit</h2>
+            <div class="form-group">
+                <label>Amount (KES)</label>
+                <input type="number" id="depositAmount" placeholder="Enter amount">
+            </div>
+            <button onclick="requestDeposit()">Request Deposit</button>
+            <p style="margin-top: 20px; color: #666; font-size: 14px;">
+                📱 After clicking, send the amount to: <strong>0712345678</strong> (M-Pesa)
+            </p>
+        </div>
+
+        <!-- Withdraw Section -->
+        <div id="withdraw" class="section">
+            <h2>Request Withdrawal</h2>
+            <div class="form-group">
+                <label>Amount (KES)</label>
+                <input type="number" id="withdrawAmount" placeholder="Enter amount">
+            </div>
+            <div class="form-group">
+                <label>M-Pesa Number</label>
+                <input type="tel" id="withdrawPhone" placeholder="0712345678">
+            </div>
+            <button onclick="requestWithdraw()">Request Withdrawal</button>
+        </div>
+
+        <!-- History Section -->
+        <div id="history" class="section">
+            <h2>📊 Investment History</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTable">
+                    <tr><td colspan="3">No history yet</td></tr>
+                </tbody>
+            </table>
+
+            <h2 style="margin-top: 30px;">💳 Withdrawal History</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="withdrawalTable">
+                    <tr><td colspan="3">No withdrawals yet</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+
+        // Auth Switching
+        function switchAuth(type) {
+            document.getElementById('loginForm').style.display = type === 'login' ? 'block' : 'none';
+            document.getElementById('registerForm').style.display = type === 'register' ? 'block' : 'none';
+            
+            document.querySelectorAll('.auth-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Register
+        async function register() {
+            const name = document.getElementById('registerName').value;
+            const phone = document.getElementById('registerPhone').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirm = document.getElementById('registerConfirm').value;
+
+            if (!name || !phone || !password) {
+                showError('All fields required');
+                return;
+            }
+
+            if (password !== confirm) {
+                showError('Passwords do not match');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, name, password })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    currentUser = data.user;
+                    showDashboard();
+                } else {
+                    showError(data.error);
+                }
+            } catch (error) {
+                showError('Registration failed: ' + error.message);
+            }
+        }
+
+        // Login
+        async function login() {
+            const phone = document.getElementById('loginPhone').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!phone || !password) {
+                showError('Phone and password required');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, password })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    currentUser = data.user;
+                    showDashboard();
+                } else {
+                    showError(data.error);
+                }
+            } catch (error) {
+                showError('Login failed: ' + error.message);
+            }
+        }
+
+        // Logout
+        function logout() {
+            currentUser = null;
+            document.getElementById('authSection').style.display = 'flex';
+            document.getElementById('dashboardSection').classList.remove('active');
+            document.getElementById('loginPhone').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        // Show Dashboard
+        async function showDashboard() {
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('dashboardSection').classList.add('active');
+            document.getElementById('investorName').textContent = currentUser.name;
+            await loadDashboard();
+        }
+
+        // Load Dashboard Data
+        async function loadDashboard() {
+            try {
+                const res = await fetch(`/api/dashboard/${currentUser.id}`);
+                const data = await res.json();
+                
+                document.getElementById('investmentAmount').textContent = data.totalInvestment.toLocaleString() + ' KES';
+                document.getElementById('earningsAmount').textContent = data.totalEarnings.toLocaleString() + ' KES';
+                document.getElementById('availableAmount').textContent = data.availableBalance.toLocaleString() + ' KES';
+            } catch (error) {
+                console.error('Load dashboard error:', error);
+            }
+        }
+
+        // Request Deposit
+        async function requestDeposit() {
+            const amount = parseInt(document.getElementById('depositAmount').value);
+            if (!amount || amount <= 0) {
+                showMessage('Enter valid amount', 'error');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/request-investment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId: currentUser.id, amount })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    showMessage('Deposit request sent! Send ' + amount + ' KES to 0712345678', 'success');
+                    document.getElementById('depositAmount').value = '';
+                    setTimeout(loadDashboard, 2000);
+                } else {
+                    showMessage(data.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Error: ' + error.message, 'error');
+            }
+        }
+
+        // Request Withdrawal
+        async function requestWithdraw() {
+            const amount = parseInt(document.getElementById('withdrawAmount').value);
+            const phone = document.getElementById('withdrawPhone').value;
+
+            if (!amount || amount <= 0 || !phone) {
+                showMessage('Enter valid amount and phone', 'error');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/request-withdrawal', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId: currentUser.id, amount, mpesaNumber: phone })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    showMessage('Withdrawal request sent! Admin will process soon.', 'success');
+                    document.getElementById('withdrawAmount').value = '';
+                    document.getElementById('withdrawPhone').value = '';
+                    setTimeout(loadDashboard, 2000);
+                } else {
+                    showMessage(data.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Error: ' + error.message, 'error');
+            }
+        }
+
+        // Show Section
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(section).classList.add('active');
+            
+            if (section === 'history') {
+                loadHistory();
+            }
+        }
+
+        // Load History
+        async function loadHistory() {
+            try {
+                const [invRes, wdRes] = await Promise.all([
+                    fetch(`/api/investments/${currentUser.id}`),
+                    fetch(`/api/withdrawals/${currentUser.id}`)
+                ]);
+
+                const investments = await invRes.json();
+                const withdrawals = await wdRes.json();
+
+                // Populate investment history
+                const invTable = document.getElementById('historyTable');
+                if (investments.length === 0) {
+                    invTable.innerHTML = '<tr><td colspan="3">No investments yet</td></tr>';
+                } else {
+                    invTable.innerHTML = investments.map(inv => `
+                        <tr>
+                            <td>${new Date(inv.requestedAt).toLocaleDateString()}</td>
+                            <td>${inv.amount.toLocaleString()} KES</td>
+                            <td><strong>${inv.status}</strong></td>
+                        </tr>
+                    `).join('');
+                }
+
+                // Populate withdrawal history
+                const wdTable = document.getElementById('withdrawalTable');
+                if (withdrawals.length === 0) {
+                    wdTable.innerHTML = '<tr><td colspan="3">No withdrawals yet</td></tr>';
+                } else {
+                    wdTable.innerHTML = withdrawals.map(wd => `
+                        <tr>
+                            <td>${new Date(wd.requestedAt).toLocaleDateString()}</td>
+                            <td>${wd.amount.toLocaleString()} KES</td>
+                            <td><strong>${wd.status}</strong></td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Load history error:', error);
+            }
+        }
+
+        // Show Messages
+        function showMessage(text, type) {
+            const msg = document.getElementById('message');
+            msg.textContent = text;
+            msg.className = type;
+            msg.classList.add('show');
+            setTimeout(() => msg.classList.remove('show'), 4000);
+        }
+
+        function showError(text) {
+            const msg = document.getElementById('authMessage');
+            msg.textContent = text;
+            msg.classList.add('show');
+            setTimeout(() => msg.classList.remove('show'), 4000);
+        }
+    </script>
+</body>
+</html>
