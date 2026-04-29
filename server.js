@@ -148,7 +148,9 @@ bot.onText(/\/pending_investments/, async (msg) => {
         pending.forEach((inv, idx) => {
             message += `${idx + 1}. ${inv.investorName}\n`;
             message += `   Amount: ${inv.amount.toLocaleString()} KES\n`;
-            message += `   Phone: ${inv.phone}\n\n`;
+            message += `   Phone: ${inv.phone}\n`;
+            message += `   ID: ${inv._id}\n`;
+            message += `   👉 /approve_investment ${inv._id}\n\n`;
         });
 
         bot.sendMessage(chatId, message);
