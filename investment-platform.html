@@ -157,10 +157,6 @@
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
-        .btn:active {
-            transform: translateY(0);
-        }
-
         .auth-message {
             margin-top: 20px;
             padding: 12px;
@@ -172,12 +168,6 @@
         .auth-message.error {
             background: #fee2e2;
             color: #991b1b;
-            display: block;
-        }
-
-        .auth-message.success {
-            background: #dcfce7;
-            color: #15803d;
             display: block;
         }
 
@@ -218,15 +208,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .navbar-menu {
-            display: flex;
-            gap: 30px;
-            align-items: center;
         }
 
         .navbar-user {
@@ -313,10 +294,6 @@
             border-left-color: var(--warning);
         }
 
-        .stat-card.danger {
-            border-left-color: var(--danger);
-        }
-
         .stat-label {
             font-size: 13px;
             font-weight: 600;
@@ -331,15 +308,6 @@
             font-weight: 700;
             color: var(--dark);
             margin-bottom: 15px;
-        }
-
-        .stat-change {
-            font-size: 13px;
-            color: #6b7280;
-        }
-
-        .stat-change.positive {
-            color: var(--success);
         }
 
         .action-grid {
@@ -447,6 +415,45 @@
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
+        .info-box {
+            background: var(--light);
+            border-left: 4px solid var(--primary);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: var(--dark);
+        }
+
+        .mpesa-box {
+            background: #fef3c7;
+            border: 2px solid var(--warning);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .mpesa-label {
+            font-size: 13px;
+            color: #92400e;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .mpesa-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #b45309;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 15px;
+        }
+
+        .mpesa-instruction {
+            font-size: 13px;
+            color: #92400e;
+        }
+
         .table-responsive {
             overflow-x: auto;
             margin-top: 20px;
@@ -492,11 +499,6 @@
         .badge.pending {
             background: #fef3c7;
             color: #92400e;
-        }
-
-        .badge.danger {
-            background: #fee2e2;
-            color: #991b1b;
         }
 
         .message {
@@ -557,37 +559,9 @@
             background: var(--primary-dark);
         }
 
-        .info-box {
-            background: var(--light);
-            border-left: 4px solid var(--primary);
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            color: var(--dark);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #6b7280;
-        }
-
-        .empty-state i {
-            font-size: 48px;
-            color: var(--light);
-            margin-bottom: 20px;
-        }
-
         @media (max-width: 768px) {
             .navbar-container {
                 padding: 0 20px;
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .navbar-menu {
-                width: 100%;
                 flex-direction: column;
                 gap: 15px;
             }
@@ -682,15 +656,13 @@
                 <div class="navbar-brand">
                     <i class="fas fa-chart-line"></i> Elite Investment
                 </div>
-                <div class="navbar-menu">
-                    <div class="navbar-user">
-                        <div>
-                            <div class="navbar-user-name" id="navUserName">User</div>
-                        </div>
-                        <button class="logout-btn" onclick="logout()">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </button>
+                <div class="navbar-user">
+                    <div>
+                        <div class="navbar-user-name" id="navUserName">User</div>
                     </div>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
                 </div>
             </div>
         </div>
@@ -708,19 +680,19 @@
                 <div class="stat-card">
                     <div class="stat-label">💰 Total Investment</div>
                     <div class="stat-value" id="investmentAmount">0 KES</div>
-                    <div class="stat-change">Your principal amount</div>
+                    <div style="font-size: 12px; color: #6b7280;">Your principal amount</div>
                 </div>
 
                 <div class="stat-card success">
                     <div class="stat-label">📈 Total Earnings</div>
                     <div class="stat-value" id="earningsAmount">0 KES</div>
-                    <div class="stat-change positive">Profit from investments</div>
+                    <div style="font-size: 12px; color: #6b7280;">Profit from investments</div>
                 </div>
 
                 <div class="stat-card warning">
                     <div class="stat-label">💳 Available Balance</div>
                     <div class="stat-value" id="availableAmount">0 KES</div>
-                    <div class="stat-change">Ready to withdraw</div>
+                    <div style="font-size: 12px; color: #6b7280;">Ready to withdraw</div>
                 </div>
             </div>
 
@@ -730,7 +702,7 @@
                     <i class="fas fa-plus-circle"></i>
                     <div>
                         <div style="font-size: 11px; opacity: 0.9;">Make a Deposit</div>
-                        <div>Invest More</div>
+                        <div>Invest Now</div>
                     </div>
                 </button>
 
@@ -754,7 +726,7 @@
                     <i class="fas fa-history"></i>
                     <div>
                         <div style="font-size: 11px; opacity: 0.9;">View Activity</div>
-                        <div>Transaction History</div>
+                        <div>History</div>
                     </div>
                 </button>
             </div>
@@ -769,7 +741,7 @@
                 </div>
 
                 <div class="info-box">
-                    <i class="fas fa-info-circle"></i> <strong>How it works:</strong> Enter the amount you want to invest. We'll show you our M-Pesa number to send the funds. Once we verify payment, your investment will be activated.
+                    <i class="fas fa-info-circle"></i> <strong>How it works:</strong> Enter the amount you want to invest. Send the exact amount to the M-Pesa number shown below. Once we verify payment, your investment will be activated.
                 </div>
 
                 <div class="form-group-section">
@@ -777,13 +749,22 @@
                     <input type="number" id="depositAmount" placeholder="Enter amount (e.g., 100000)">
                 </div>
 
-                <div class="info-box" style="background: #fef3c7; border-left-color: var(--warning);">
-                    <strong>📱 M-Pesa Number:</strong> <br>
-                    Send to: <strong>0712345678</strong>
+                <div id="mpesaInfo" style="display: none;">
+                    <div class="mpesa-box">
+                        <div class="mpesa-label">📱 Send Money to This M-Pesa Number:</div>
+                        <div class="mpesa-number">0712345678</div>
+                        <div class="mpesa-instruction">
+                            Amount to send: <strong id="amountToSend">0 KES</strong><br>
+                            Once you send, click the button below to confirm
+                        </div>
+                    </div>
                 </div>
 
-                <button class="btn-primary" onclick="requestDeposit()">
-                    <i class="fas fa-check"></i> Request Investment
+                <button class="btn-primary" id="investBtn" onclick="showMpesaAndInvest()" style="display: block;">
+                    <i class="fas fa-check"></i> Invest Now
+                </button>
+                <button class="btn-primary" id="confirmInvestBtn" onclick="confirmDeposit()" style="display: none; background: var(--success);">
+                    <i class="fas fa-check-circle"></i> I've Sent the Money
                 </button>
             </div>
 
@@ -900,6 +881,15 @@
         let currentUser = null;
         const API_BASE = '/api';
 
+        // Keep user logged in
+        window.addEventListener('load', () => {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showDashboard();
+            }
+        });
+
         // ==================== AUTH FUNCTIONS ====================
         function switchAuth(type) {
             const loginForm = document.getElementById('loginForm');
@@ -949,6 +939,7 @@
                 const data = await res.json();
                 if (data.success) {
                     currentUser = data.user;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
                     showDashboard();
                 } else {
                     showAuthError(data.error || 'Registration failed');
@@ -977,6 +968,7 @@
                 const data = await res.json();
                 if (data.success) {
                     currentUser = data.user;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
                     showDashboard();
                 } else {
                     showAuthError(data.error || 'Login failed');
@@ -1000,11 +992,13 @@
             document.getElementById('investorName').textContent = currentUser.name.split(' ')[0];
             document.getElementById('navUserName').textContent = currentUser.name;
             loadDashboard();
+            setInterval(loadDashboard, 5000); // Auto-refresh every 5 seconds
         }
 
         function logout() {
             if (confirm('Are you sure you want to logout?')) {
                 currentUser = null;
+                localStorage.removeItem('currentUser');
                 document.getElementById('authSection').style.display = 'flex';
                 document.getElementById('dashboardSection').classList.remove('active');
                 document.getElementById('loginPhone').value = '';
@@ -1013,6 +1007,7 @@
         }
 
         async function loadDashboard() {
+            if (!currentUser) return;
             try {
                 const res = await fetch(`${API_BASE}/dashboard/${currentUser.id}`);
                 const data = await res.json();
@@ -1035,7 +1030,20 @@
             }
         }
 
-        async function requestDeposit() {
+        function showMpesaAndInvest() {
+            const amount = parseInt(document.getElementById('depositAmount').value);
+            if (!amount || amount <= 0) {
+                showMessage('Please enter a valid amount', 'error');
+                return;
+            }
+
+            document.getElementById('amountToSend').textContent = amount.toLocaleString() + ' KES';
+            document.getElementById('mpesaInfo').style.display = 'block';
+            document.getElementById('investBtn').style.display = 'none';
+            document.getElementById('confirmInvestBtn').style.display = 'block';
+        }
+
+        async function confirmDeposit() {
             const amount = parseInt(document.getElementById('depositAmount').value);
             if (!amount || amount <= 0) {
                 showMessage('Please enter a valid amount', 'error');
@@ -1051,9 +1059,15 @@
 
                 const data = await res.json();
                 if (data.success) {
-                    showMessage('✅ Deposit request sent! Send ' + amount.toLocaleString() + ' KES to M-Pesa 0712345678. We\'ll verify and activate your investment.', 'success');
+                    showMessage('✅ Deposit request sent! Admin will verify your payment shortly.', 'success');
                     document.getElementById('depositAmount').value = '';
-                    setTimeout(loadDashboard, 1000);
+                    document.getElementById('mpesaInfo').style.display = 'none';
+                    document.getElementById('investBtn').style.display = 'block';
+                    document.getElementById('confirmInvestBtn').style.display = 'none';
+                    setTimeout(() => {
+                        loadDashboard();
+                        showSection('history');
+                    }, 2000);
                 } else {
                     showMessage(data.error || 'Error requesting deposit', 'error');
                 }
@@ -1083,7 +1097,10 @@
                     showMessage('✅ Withdrawal request sent! Admin will process within 24 hours.', 'success');
                     document.getElementById('withdrawAmount').value = '';
                     document.getElementById('withdrawPhone').value = '';
-                    setTimeout(loadDashboard, 1000);
+                    setTimeout(() => {
+                        loadDashboard();
+                        showSection('history');
+                    }, 2000);
                 } else {
                     showMessage(data.error || 'Error requesting withdrawal', 'error');
                 }
@@ -1123,7 +1140,7 @@
                         <tr>
                             <td>${new Date(wd.requestedAt).toLocaleDateString()}</td>
                             <td>${wd.amount.toLocaleString()} KES</td>
-                            <td><span class="badge ${wd.status === 'paid' ? 'success' : wd.status === 'pending' ? 'pending' : 'danger'}">${wd.status}</span></td>
+                            <td><span class="badge ${wd.status === 'paid' ? 'success' : 'pending'}">${wd.status}</span></td>
                         </tr>
                     `).join('');
                 }
@@ -1142,7 +1159,7 @@
         function copyReferralCode() {
             const code = document.getElementById('referralCode').textContent;
             navigator.clipboard.writeText(code);
-            alert('Referral link copied to clipboard!');
+            alert('Referral link copied!');
         }
 
         function shareWhatsApp() {
